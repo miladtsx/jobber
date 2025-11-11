@@ -24,7 +24,7 @@ const DEFAULT_SETTINGS = {
   feeds: [...DEFAULT_FEEDS],
   keywords: [...DEFAULT_KEYWORDS],
   useProxy: true,
-  proxyPrefix: "https://r.jina.ai",
+  proxyPrefix: "https://cloudflare-cors-anywhere.corstsx.workers.dev",
   allowLocalCache: true,
 };
 
@@ -561,8 +561,8 @@ function buildFeedUrl(url, { useProxy, proxyPrefix }) {
   if (!useProxy) return url;
   const prefix = (proxyPrefix || "").trim();
   if (!prefix) return url;
-  if (prefix.endsWith("/")) return `${prefix}${url}`;
-  return `${prefix}/${url}`;
+  if (prefix.endsWith("/")) return `${prefix}?${url}`;
+  return `${prefix}/?${url}`;
 }
 
 async function fetchFeedXml(url, options) {
@@ -586,6 +586,7 @@ async function fetchLocalCache(url) {
     const hash = await sha1Hex(url);
     if (!hash) return null;
     const localUrl = `cache/${hash}.xml`;
+    debugger;
     const res = await fetch(localUrl);
     if (!res.ok) return null;
     return await res.text();
@@ -1010,7 +1011,17 @@ async function fetchWithRetry(url) {
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
     try {
-      const res = await fetch(url, { signal: ctrl.signal });
+      const res = await fetch(url, {
+        signal: ctrl.signal,
+        method: "POST",
+        headers: {
+          "x-cors-headers": JSON.stringify({
+            // allows to send forbidden headers
+            // https://developer.mozilla.org/en-US/docs/Glossary/Forbidden_header_name
+            cookies: "x=123",
+          }),
+        },
+      });
       if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
       const text = await res.text();
       return text;
