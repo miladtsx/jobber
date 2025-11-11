@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "build": "rm -rf docs && mkdir -p docs && cp -R src/* docs/ && if [ -d cache ]; then mkdir -p docs/cache && cp -R cache/. docs/cache/; fi",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
