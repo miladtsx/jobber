@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug fetch.js",
+            "program": "${workspaceFolder}/fetch.js",
+            "stopOnEntry": true,
+            "skipFiles": [
+                "<node_internals>/**",
+                "**/node_modules/**"
+            ],
+            "console": "internalConsole",
+            "env": {
+                "NODE_OPTIONS": "--enable-source-maps"
+            }
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Attach to Node 9229",
+            "port": 9229,
+            "restart": true
+        }
+    ]
+}
