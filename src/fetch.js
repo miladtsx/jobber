@@ -23,7 +23,7 @@ const STORAGE_KEYS = {
 const DEFAULT_SETTINGS = {
   feeds: [...DEFAULT_FEEDS],
   keywords: [...DEFAULT_KEYWORDS],
-  useProxy: true,  proxyPrefix: "https://cloudflare-cors-anywhere.corstsx.workers.dev",
+  useProxy: true,  proxyPrefix: "https://cloudflare-cors-anywhere.miladtsx.workers.dev",
   allowLocalCache: true,
 };
 
